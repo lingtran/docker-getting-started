@@ -95,17 +95,17 @@ Curated while getting started with Docker
   #### Leave swarm
   `docker-machine ssh VM-NAME "docker swarm leave"`
 
-### ** Deploy app on a cluster **
+### **Deploy app on a cluster**
   `docker-machine scp docker-compose.yml VM-NAME:~`
 
   `docker-machine ssh VM-NAME "docker stack deploy -c docker-compose.yml NAME-OF-APP"`
 
   Check via `docker-machine ssh VM-NAME "docker stack ps NAME-OF-APP"`
 
-### ** Access cluster **
+### **Access cluster**
   `docker-machine ls`
 
-### ** Cleanup ***
+### **Cleanup**
   `docker-machine ssh VM-NAME "docker stack rm NAME-OF-APP"`
 
   Can choose to keep the swarm or remove it
