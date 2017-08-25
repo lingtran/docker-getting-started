@@ -1,49 +1,111 @@
-## Log into docker
-`docker login`
+# List of Docker commands
+Curated while getting started with Docker
 
-## Quick test of proper environment set up
-`docker run hello-world`
+## Container level
+### **Build and run app**
 
-## Build app
-`docker build -t NAME-OF-APP`
+  #### Log into docker
+  `docker login`
 
-## Run app
-* `docker run -p 4000:80 NAME-OF-APP`
+  #### Quick test of proper environment set up
+  `docker run hello-world`
 
-  visit `http://localhost:4000`
+  #### Build app
+  `docker build -t NAME-OF-APP`
 
-* `docker run -p 80:80 USERNAME/REPO:TAG`
+  #### Run app
+  * `docker run -p 4000:80 NAME-OF-APP`
 
-  visit `http://localhost/`
+    visit `http://localhost:4000`
 
-## Run app in background, in detached mode
-`docker run -d -p 4000:80 NAME-OF-APP`
+  * `docker run -p 80:80 USERNAME/REPO:TAG`
 
-## Look at Docker image registry
-`docker images`
+    visit `http://localhost/`
 
-## Publish the image
-`docker push USERNAME/REPO:TAG`
 
-## Pull and run image from remote repo
-`docker run -p 4000:80 USERNAME/REPO:TAG`
+  #### Run app in background, in detached mode
+  `docker run -d -p 4000:80 NAME-OF-APP`
 
-## Tag image
-`docker tag image USERNAME/REPO:TAG`
+  #### Stop process
+  `docker stop CONTAINER-ID`
 
-## Stop process
-`docker stop CONTAINER-ID`
+### **Docker image**
 
-## Run docker-compose.yml
-* `docker stack deploy -c docker-compose.yml NAME-OF-APP`
+  #### Look at Docker image registry
+  `docker images`
 
-  Run `docker swarm init` once before if it has not been done yet
+  #### Publish the image
+  `docker push USERNAME/REPO:TAG`
 
-## See list of containers just launched
-`docker stack ps NAME-OF-APP`
+  #### Pull and run image from remote repo
+  `docker run -p 4000:80 USERNAME/REPO:TAG`
 
-## Take down the app
-`docker stack rm NAME-OF-APP`
+  #### Tag image
+  `docker tag image USERNAME/REPO:TAG`
 
-## Take down the swarm after the app
-`docker swarm leave --force`
+## Service level
+
+  #### Run docker-compose.yml
+  * `docker stack deploy -c docker-compose.yml NAME-OF-APP`
+
+    Run `docker swarm init` once before if it has not been done yet
+
+
+  #### See list of containers just launched
+  `docker stack ps NAME-OF-APP`
+
+  #### Take down the app
+  `docker stack rm NAME-OF-APP`
+
+  #### Take down the swarm after the app
+  `docker swarm leave --force`
+
+## Swarms
+
+  #### Use docker-machine and VirtualBox to create VMS
+  `docker-machine create --driver virtualbox VM-NAME`
+
+  #### See how to connect Docker Client to Docker engine running on a particular created VM
+  `docker-machine env VM-NAME`
+
+  #### Instruct VM to be a swarm manager
+  Only a swarm manager can execute Docker commands
+
+  `docker-machine ssh VM-NAME "docker swarm init"`
+  * `docker-machine ssh` is a command that enables sending commands to a specified VM
+  *  If error with need to use `--advertise-addr`, then `docker-machine ssh VM-NAME "docker swarm init --advertise-addr VM-IP:2377"`
+  > `docker-machine ls` to find IP for appropriate VM-IP;
+
+  > Specifying port has to be `2377`
+
+
+  #### Join swarm
+  Add worker to a swarm
+
+  Workers are for capacity and are not able to execute Docker commands
+
+  `docker-machine ssh VM-NAME "docker swarm join --token <token>"`
+  > make sure specifying port is `2377`
+
+  #### Check nodes in a swarm
+  `docker-machine ssh VM-NAME` THEN in the machine, then run 'docker node ls' THEN to exit with command `exit`
+
+  Alternatively, `docker-machine ssh VM-NAME "docker node ls"`
+
+  #### Leave swarm
+  `docker-machine ssh VM-NAME "docker swarm leave"`
+
+### ** Deploy app on a cluster **
+  `docker-machine scp docker-compose.yml VM-NAME:~`
+
+  `docker-machine ssh VM-NAME "docker stack deploy -c docker-compose.yml NAME-OF-APP"`
+
+  Check via `docker-machine ssh VM-NAME "docker stack ps NAME-OF-APP"`
+
+### ** Access cluster **
+  `docker-machine ls`
+
+### ** Cleanup ***
+  `docker-machine ssh VM-NAME "docker stack rm NAME-OF-APP"`
+
+  Can choose to keep the swarm or remove it
