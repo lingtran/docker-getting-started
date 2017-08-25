@@ -33,3 +33,17 @@
 
 ## Stop process
 `docker stop CONTAINER-ID`
+
+## Run docker-compose.yml
+* `docker stack deploy -c docker-compose.yml NAME-OF-APP`
+
+  Run `docker swarm init` once before if it has not been done yet
+
+## See list of containers just launched
+`docker stack ps NAME-OF-APP`
+
+## Take down the app
+`docker stack rm NAME-OF-APP`
+
+## Take down the swarm after the app
+`docker swarm leave --force`
