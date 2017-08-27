@@ -46,6 +46,11 @@ Curated while getting started with Docker
 ## Service level
 
   #### Run docker-compose.yml
+
+  // Copy new/updated docker-compose.yml file before deploying the new/updated version
+  * `docker-machine scp docker-compose.yml VM-NAME:~`
+
+
   * `docker stack deploy -c docker-compose.yml NAME-OF-APP`
 
     Run `docker swarm init` once before if it has not been done yet
