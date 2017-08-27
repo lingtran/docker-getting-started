@@ -109,3 +109,10 @@ Curated while getting started with Docker
   `docker-machine ssh VM-NAME "docker stack rm NAME-OF-APP"`
 
   Can choose to keep the swarm or remove it
+
+## Stacks
+
+### **Visualizer service**
+  Run `docker-machine ls` to get IP address of one of nodes
+
+  In this version, visualizer runs on port 8080, so visit either IP address at this port.
