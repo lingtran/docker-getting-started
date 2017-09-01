@@ -22,6 +22,9 @@ Curated while getting started with Docker
 
     visit `http://localhost/`
 
+  > Get container info `docker ps` after running the app, will list port
+
+  > Can also get port info via `docker port CONTAINER-ID` or `docker port CONTAINER-NAME`
 
   #### Run app in background, in detached mode
   `docker run -d -p 4000:80 NAME-OF-APP`
